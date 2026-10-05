@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PharmaTrace — Plateforme de surveillance pharmaceutique</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#131b6b;--g:#61AD87;--ga:#23d37b;--bg:#fff;--alt:#F8FAFC;--card:#fff;--bd:#E5E7EB;--tx:#111827;--mu:#6B7280;--h:#131b6b;--glass:rgba(255,255,255,.78);--sh:0 2px 4px rgba(19,27,107,.04),0 10px 30px rgba(19,27,107,.07);--grad:linear-gradient(135deg,#131b6b 0%,#61AD87 100%);--btn:linear-gradient(135deg,#23d37b,#61AD87);--okb:#e6f7ee;--okt:#0f6b43;--eb:#fdecee;--et:#b4232f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1030;--alt:#0f1540;--card:#141b4d;--bd:#262e6a;--tx:#eef1ff;--mu:#a9b0d8;--h:#fff;--glass:rgba(11,16,48,.8);--okb:#0f3a2a;--okt:#7be8b2;--eb:#44151b;--et:#ff9aa3}}
+:root[data-theme="dark"]{--bg:#0b1030;--alt:#0f1540;--card:#141b4d;--bd:#262e6a;--tx:#eef1ff;--mu:#a9b0d8;--h:#fff;--glass:rgba(11,16,48,.8);--okb:#0f3a2a;--okt:#7be8b2;--eb:#44151b;--et:#ff9aa3}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth;scroll-padding-top:calc(76px + env(safe-area-inset-top,0px))}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;overflow-x:hidden}
+.ic{width:20px;height:20px;flex:none;vertical-align:middle}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--ga);outline-offset:3px}
+.w{max-width:1180px;margin:0 auto;padding:0 24px}
+h1,h2,h3{color:var(--h);letter-spacing:-.025em;line-height:1.15}
+/* header */
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:.3s}
+header.sc{box-shadow:0 6px 24px rgba(19,27,107,.09);border-color:var(--bd)}
+.bar{display:flex;align-items:center;gap:28px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--h)}.logo svg{width:36px;height:36px}
+nav.m{display:flex;gap:26px;margin-left:auto;font-weight:500;font-size:14.5px;color:var(--mu)}nav.m a{position:relative;padding:4px 0;transition:.2s}nav.m a:hover{color:var(--h)}
+nav.m a:after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--ga);transition:.25s}nav.m a:hover:after{width:100%}
+.acts{display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:11px 22px;border-radius:12px;font-weight:700;border:1px solid var(--bd);background:var(--card);color:var(--h);transition:.25s}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--sh)}
+.btn.p{background:var(--btn);border-color:transparent;color:#052e1d;box-shadow:0 8px 20px rgba(35,211,123,.3)}.btn.p:hover{box-shadow:0 0 0 4px rgba(35,211,123,.18),0 12px 28px rgba(35,211,123,.45)}
+.btn.lg{padding:15px 28px;font-size:15.5px}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--bd);border-radius:12px;background:var(--card);position:relative}
+.burger i{position:absolute;left:12px;right:12px;height:2px;background:var(--h);border-radius:2px;transition:.3s}.burger i:nth-child(1){top:15px}.burger i:nth-child(2){top:21px}.burger i:nth-child(3){top:27px}
+.burger.x i:nth-child(1){top:21px;transform:rotate(45deg)}.burger.x i:nth-child(2){opacity:0}.burger.x i:nth-child(3){top:21px;transform:rotate(-45deg)}
+#drawer{display:none}
+/* hero */
+.hero{position:relative;padding:150px 0 90px;overflow:hidden;background:linear-gradient(180deg,var(--bg),var(--alt))}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:bl 14s ease-in-out infinite alternate;pointer-events:none}
+.b1{width:420px;height:420px;background:#61AD87;top:-80px;right:-60px;opacity:.35}.b2{width:380px;height:380px;background:#131b6b;left:-120px;top:120px;opacity:.14;animation-delay:-5s}.b3{width:260px;height:260px;background:#23d37b;bottom:-60px;left:40%;opacity:.2;animation-delay:-9s}
+@keyframes bl{to{transform:translate(40px,30px) scale(1.12)}}
+.hg{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:50px;align-items:center}
+.tag{display:inline-flex;gap:8px;align-items:center;padding:6px 14px;border-radius:99px;background:var(--card);border:1px solid var(--bd);font-size:13px;font-weight:600;color:var(--okt);box-shadow:var(--sh)}
+h1{font-size:clamp(34px,5vw,58px);font-weight:800;margin:18px 0}
+h1 span,.gt{background:linear-gradient(90deg,#131b6b,#61AD87 70%,#23d37b);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) h1 span,:root:not([data-theme="light"]) .gt{background-image:linear-gradient(90deg,#9db0ff,#61AD87,#23d37b)}}
+.lead{font-size:18px;color:var(--mu);max-width:540px}.cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.hi>*{opacity:0;animation:up .8s cubic-bezier(.2,.8,.2,1) forwards}.hi>*:nth-child(2){animation-delay:.12s}.hi>*:nth-child(3){animation-delay:.24s}.hi>*:nth-child(4){animation-delay:.36s}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.mock{position:relative;height:440px}
+.mk{position:absolute;background:var(--card);border:1px solid var(--bd);border-radius:20px;box-shadow:0 24px 60px rgba(19,27,107,.16)}
+.m1{inset:20px 30px 40px 0;padding:18px;animation:fl 7s ease-in-out infinite}.m2{width:200px;left:-10px;bottom:0;padding:14px;animation:fl 6s ease-in-out -2s infinite;background:linear-gradient(160deg,#131b6b,#0f4a5a)!important;color:#fff;border:0}
+.m3{width:210px;right:-6px;top:0;padding:14px;animation:fl 8s ease-in-out -4s infinite}
+@keyframes fl{50%{transform:translateY(-14px)}}
+.dots3{display:flex;gap:6px;margin-bottom:12px}.dots3 i{width:9px;height:9px;border-radius:50%;background:var(--bd)}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mini div{background:var(--alt);border:1px solid var(--bd);border-radius:12px;padding:8px 10px;font-size:11px;color:var(--mu)}.mini b{display:block;font-size:18px;color:var(--h)}
+.chart{display:flex;align-items:flex-end;gap:8px;height:130px;margin-top:14px}.chart i{flex:1;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#61AD87,rgba(97,173,135,.25));transform-origin:bottom;animation:gr 1.4s ease-out backwards}
+@keyframes gr{from{transform:scaleY(0)}}
+.sl{height:96px;border-radius:12px;position:relative;overflow:hidden;background:rgba(255,255,255,.08);margin:8px 0}.sl:after{content:"";position:absolute;left:0;right:0;height:3px;background:var(--ga);box-shadow:0 0 14px 4px rgba(35,211,123,.7);animation:sw 1.8s ease-in-out infinite alternate}
+@keyframes sw{from{top:0}to{top:93px}}
+.pill{display:inline-flex;gap:6px;align-items:center;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}.pill.ok{background:var(--okb);color:var(--okt)}.pill.er{background:var(--eb);color:var(--et)}
+/* sections */
+section.s{padding:90px 0}.alt{background:var(--alt)}.gl{background:linear-gradient(135deg,rgba(19,27,107,.05),rgba(97,173,135,.14))}
+.hd{text-align:center;max-width:640px;margin:0 auto 46px}.hd h2{font-size:clamp(28px,3.6vw,40px);font-weight:800}.hd p{color:var(--mu);margin-top:12px;font-size:16.5px}
+.kick{color:var(--g);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s cubic-bezier(.2,.8,.2,1)}.rv.in{opacity:1;transform:none}
+.card{position:relative;overflow:hidden;background:linear-gradient(160deg,var(--card) 55%,rgba(97,173,135,.09));border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);padding:26px;transition:transform .35s,box-shadow .35s,opacity .35s}
+.card:before{content:"";position:absolute;top:-60px;right:-60px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(35,211,123,.2),transparent 70%)}
+.card:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(19,27,107,.14)}
+.ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;background:var(--grad);color:#fff;margin-bottom:16px;box-shadow:0 8px 18px rgba(97,173,135,.35)}.ico .ic{width:24px;height:24px}
+.card h3{font-size:18px;margin-bottom:6px}.card p{color:var(--mu);font-size:14.5px}
+.car{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:20px;position:relative}.dots{display:none}
+.big{font-size:42px;font-weight:800;color:var(--h);letter-spacing:-.03em;line-height:1.1}
+.pr{height:6px;border-radius:9px;background:var(--bd);margin-top:14px;overflow:hidden}.pr i{display:block;height:100%;width:0;background:var(--btn);border-radius:9px;transition:width 1.6s .2s}.in .pr i,.act .pr i{width:var(--w)}
+.steps{--n:4;position:relative}.steps:before{content:"";position:absolute;top:34px;left:12%;right:12%;height:3px;background:linear-gradient(90deg,var(--g),var(--ga));opacity:.35;border-radius:3px}
+.st{text-align:center;position:relative}.st .num{width:68px;height:68px;border-radius:50%;margin:0 auto 16px;background:var(--card);border:3px solid var(--ga);display:grid;place-items:center;color:var(--h);box-shadow:0 0 0 8px rgba(35,211,123,.12);position:relative}
+.st small{position:absolute;top:-8px;right:-8px;background:var(--navy);color:#fff;width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:700;display:grid;place-items:center}
+.st h3{font-size:17px}.st p{color:var(--mu);font-size:14.5px;margin-top:4px}.prog{display:none;height:4px;border-radius:4px;background:var(--bd);margin:16px auto 0;max-width:260px;overflow:hidden}.prog i{display:block;height:100%;width:0;background:var(--btn)}.prog i.run{animation:fillb 4.5s linear forwards}@keyframes fillb{to{width:100%}}
+.demo{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.ph{width:270px;height:510px;margin:0 auto;border-radius:40px;background:#0b1042;padding:12px;box-shadow:0 30px 70px rgba(19,27,107,.3);animation:fl 8s ease-in-out infinite}
+.sc2{height:100%;border-radius:30px;background:linear-gradient(180deg,#131b6b,#0d2f55);position:relative;overflow:hidden;color:#fff;padding:20px 16px}
+.vf{height:210px;margin-top:20px;border-radius:18px;position:relative;background:rgba(255,255,255,.07)}.vf i{position:absolute;width:26px;height:26px;border:3px solid var(--ga)}.vf i:nth-child(1){top:10px;left:10px;border-right:0;border-bottom:0}.vf i:nth-child(2){top:10px;right:10px;border-left:0;border-bottom:0}.vf i:nth-child(3){bottom:10px;left:10px;border-right:0;border-top:0}.vf i:nth-child(4){bottom:10px;right:10px;border-left:0;border-top:0}
+.vf:after{content:"";position:absolute;left:10px;right:10px;height:3px;background:var(--ga);box-shadow:0 0 18px 6px rgba(35,211,123,.7);animation:sw2 2s ease-in-out infinite alternate}@keyframes sw2{from{top:14px}to{top:190px}}
+.res{position:absolute;left:12px;right:12px;bottom:12px;background:var(--card);color:var(--tx);border-radius:20px;padding:16px;animation:rs 6s infinite}
+@keyframes rs{0%,35%{opacity:0;transform:translateY(30px)}45%,90%{opacity:1;transform:none}100%{opacity:0;transform:translateY(30px)}}
+.res dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px;margin-top:8px}dt{color:var(--mu)}dd{font-weight:600;margin:0}
+.prod .th{height:110px;border-radius:14px;margin-bottom:14px;background:var(--grad);display:grid;place-items:center;color:#fff;position:relative;overflow:hidden}.prod .th .ic{width:44px;height:44px}
+.prod dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:13px;margin:10px 0 14px}
+.al{background:linear-gradient(160deg,var(--eb),var(--card) 80%);border-color:rgba(217,45,58,.28)}.al:before{background:radial-gradient(circle,rgba(217,45,58,.18),transparent 70%)}
+.bdg{position:absolute;top:18px;right:18px;min-width:26px;height:26px;border-radius:99px;background:#d92d3a;color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;animation:pu 2.2s infinite}@keyframes pu{50%{box-shadow:0 0 0 7px rgba(217,45,58,.15)}}
+.sec{--n:4}.sec .card{text-align:center}.sec .ico{margin-inline:auto}
+footer{background:var(--navy);color:#fff;padding:60px 0 30px}.fg{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px}footer .logo{color:#fff}footer p,footer li{color:#c9ceff;font-size:14px}footer h4{color:var(--ga);margin-bottom:12px;font-size:14px}footer ul{list-style:none;padding:0;display:grid;gap:8px}footer a:hover{color:var(--ga)}
+.soc{display:flex;gap:10px;margin-top:16px}.soc a{width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;font-weight:700;font-size:13px;transition:.2s}.soc a:hover{background:var(--ga);color:#052e1d}
+.cp{border-top:1px solid rgba(255,255,255,.14);margin-top:34px;padding-top:20px;font-size:13px;color:#aab2f5}
+#bn{display:none}
+#ld{position:fixed;inset:0;z-index:99;background:var(--bg);padding:90px 24px;transition:opacity .5s;display:flex;flex-direction:column;gap:16px;align-items:center}#ld.off{opacity:0;pointer-events:none}
+.sk{border-radius:12px;background:linear-gradient(90deg,var(--bd) 25%,rgba(255,255,255,.55) 50%,var(--bd) 75%);background-size:200% 100%;animation:sh 1.2s infinite}@keyframes sh{to{background-position:-200% 0}}
+@media(max-width:1000px){
+ .car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;padding:14px 0 18px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.car::-webkit-scrollbar{display:none}
+ .car>*{flex:0 0 46%;scroll-snap-align:start}.dots{display:flex;gap:7px;justify-content:center;margin-top:4px}.dots button{width:8px;height:8px;border-radius:9px;border:0;padding:0;background:var(--bd);transition:.3s}.dots button.on{width:24px;background:var(--btn)}
+ .hg,.demo{grid-template-columns:1fr}.mock{max-width:480px;margin:0 auto;width:100%}.fg{grid-template-columns:1fr 1fr}.steps:before{display:none}.prog{display:block}
+ .w{overflow:visible}}
+@media(max-width:820px){nav.m,.acts .btn.lg,.acts .hide{display:none}.burger{display:block}.bar{gap:0;justify-content:space-between}
+ #drawer{display:block;position:fixed;top:calc(68px + env(safe-area-inset-top,0px));left:0;right:0;background:var(--card);border-bottom:1px solid var(--bd);box-shadow:var(--sh);padding:12px 24px 20px;display:grid;gap:4px;transform:translateY(-130%);transition:.4s cubic-bezier(.2,.8,.2,1);z-index:40}#drawer.o{transform:none}#drawer a{padding:12px 0;font-weight:600;border-bottom:1px solid var(--bd)}#drawer .btn{margin-top:10px;border:0}
+ body{padding-bottom:84px}
+ #bn{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:var(--card);box-shadow:0 -6px 24px rgba(19,27,107,.1);border-top:1px solid var(--bd);padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px));justify-content:space-around}
+ #bn a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;color:var(--mu);padding:4px 10px;border-radius:14px;transition:.3s;min-width:58px}#bn a.on{color:var(--okt)}#bn a.on .ic{background:var(--btn);color:#052e1d;border-radius:10px;padding:4px;width:30px;height:30px;box-shadow:0 6px 14px rgba(35,211,123,.4);transform:translateY(-3px)}
+ #bn a:active{transform:scale(.92)}}
+@media(max-width:700px){.hero{padding:112px 0 60px}.cta .btn{width:100%}.mock{height:360px}.m2{width:160px}.m3{width:170px}section.s{padding:64px 0}.w{padding:0 18px}
+ .car{padding-inline:9%;scroll-padding-inline:9%}.car>*{flex:0 0 100%;scroll-snap-align:center;transform:scale(.93);opacity:.75}.car>.act{transform:scale(1.02);opacity:1;box-shadow:0 22px 50px rgba(19,27,107,.2),0 0 0 1.5px rgba(35,211,123,.45)}
+ .car>.act:hover{transform:scale(1.02)}.fg{grid-template-columns:1fr}.big{font-size:38px}.mk.m3{display:none}.ph{height:480px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="lgg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#131b6b"/><stop offset="1" stop-color="#61AD87"/></linearGradient><symbol id="lg" viewBox="0 0 40 40"><path d="M20 3 34 8v11c0 9-6 15-14 18C12 34 6 28 6 19V8Z" fill="url(#lgg)"/><g transform="rotate(-45 20 20)"><rect x="12" y="15" width="16" height="10" rx="5" fill="#fff"/><path d="M20 15h3a5 5 0 0 1 0 10h-3Z" fill="#23d37b"/></g><path d="M11 12v-2h2M27 10h2v2M29 28v2h-2M13 30h-2v-2" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".85"/></symbol></defs></svg>
+<div id="ld" aria-hidden="true"><div class="sk" style="height:48px;width:100%;max-width:1100px"></div><div class="sk" style="height:60px;width:100%;max-width:560px;margin-top:40px"></div><div class="sk" style="height:60px;width:80%;max-width:460px"></div><div class="sk" style="height:200px;width:100%;max-width:560px;margin-top:20px"></div></div>
+<header id="hd"><div class="w bar">
+ <a href="#home" class="logo"><svg><use href="#lg"/></svg>PharmaTrace</a>
+ <nav class="m" aria-label="Navigation"><a href="#home">Accueil</a><a href="#features">Fonctionnalités</a><a href="#scanner">Scanner</a><a href="#monitor">Surveillance</a><a href="#reports">Rapports</a><a href="#about">À propos</a></nav>
+ <div class="acts"><a class="btn hide" href="DASH">Se connecter</a><a class="btn p" href="DASH" id="start">Commencer</a><button class="burger" id="bg" aria-label="Menu"><i></i><i></i><i></i></button></div></div></header>
+<div id="drawer"><a href="#home">Accueil</a><a href="#features">Fonctionnalités</a><a href="#scanner">Scanner</a><a href="#monitor">Surveillance</a><a href="#reports">Rapports</a><a href="#about">À propos</a><a class="btn" href="DASH">Se connecter</a></div>
+
+<main>
+<section class="hero" id="home"><div class="blob b1" data-p=".12"></div><div class="blob b2" data-p="-.08"></div><div class="blob b3" data-p=".05"></div>
+ <div class="w hg"><div class="hi"><span class="tag"><i data-i="shield"></i>Plateforme officielle de contrôle pharmaceutique</span>
+  <h1>Surveillez vos produits pharmaceutiques. <span>Détectez les expirations avant les risques.</span></h1>
+  <p class="lead">Une plateforme intelligente permettant aux pharmacies et aux autorités sanitaires de suivre, scanner et contrôler les médicaments expirés en temps réel.</p>
+  <div class="cta"><a class="btn p lg" href="DASH">Accéder à la plateforme<i data-i="arrow"></i></a><a class="btn lg" href="#features">Découvrir la solution</a></div></div>
+  <div class="mock" aria-hidden="true">
+   <div class="mk m1"><div class="dots3"><i></i><i></i><i></i></div><b style="color:var(--h)">Tableau de bord</b><div class="mini" style="margin-top:10px"><div>Produits<b>12 480</b></div><div>Expirés<b style="color:#d92d3a">214</b></div><div>Lots<b>47</b></div></div><div class="chart"><i style="height:40%"></i><i style="height:62%;animation-delay:.1s"></i><i style="height:48%;animation-delay:.2s"></i><i style="height:80%;animation-delay:.3s"></i><i style="height:58%;animation-delay:.4s"></i><i style="height:95%;animation-delay:.5s"></i><i style="height:70%;animation-delay:.6s"></i></div></div>
+   <div class="mk m2"><b style="font-size:13px;display:flex;gap:6px;align-items:center"><i data-i="scan"></i>Scanner actif</b><div class="sl"></div><span class="pill ok" style="background:rgba(35,211,123,.2);color:#7be8b2">✓ Amoxicilline 500 mg</span></div>
+   <div class="mk m3"><div style="display:flex;gap:8px;align-items:center;color:var(--et);font-weight:700;font-size:13px"><i data-i="bell"></i>Alerte ARP</div><p style="font-size:13px;color:var(--mu);margin:6px 0 8px">Lot LOT-24-0917 expiré · 420 unités</p><span class="pill er">Priorité critique</span></div></div></div></section>
+
+<section class="s" id="reports"><div class="w"><div class="hd rv"><div class="kick">Chiffres clés</div><h2>Une surveillance qui <span class="gt">fait ses preuves</span></h2></div>
+ <div class="car" style="--n:4" id="c-stats">
+  <div class="card rv"><div class="ico"><i data-i="package"></i></div><div class="big"><span data-c="10000" data-pre="+">0</span></div><p>Produits surveillés</p><div class="pr" style="--w:86%"><i></i></div></div>
+  <div class="card rv"><div class="ico" style="background:linear-gradient(135deg,#d92d3a,#e8890c)"><i data-i="alert"></i></div><div class="big"><span data-c="214">0</span></div><p>Produits expirés <span class="pill er" style="margin-left:6px">Risque élevé</span></p><div class="pr" style="--w:34%"><i></i></div></div>
+  <div class="card rv"><div class="ico"><i data-i="layers"></i></div><div class="big"><span data-c="500" data-pre="+">0</span></div><p>Lots contrôlés</p><div class="pr" style="--w:72%"><i></i></div></div>
+  <div class="card rv"><div class="ico"><i data-i="bell"></i></div><div class="big"><span data-c="99" data-suf="%">0</span></div><p>Traçabilité · Alertes ARP <b>24/7</b></p><div class="pr" style="--w:99%"><i></i></div></div></div></div></section>
+
+<section class="s alt" id="how"><div class="w"><div class="hd rv"><div class="kick">Comment ça fonctionne</div><h2>De l'emballage à l'alerte en <span class="gt">4 étapes</span></h2></div>
+ <div class="car steps" id="c-steps">
+  <div class="st rv"><div class="num"><i data-i="scan"></i><small>1</small></div><h3>Scanner le produit</h3><p>Lecture automatique du code produit et de la date d'expiration.</p></div>
+  <div class="st rv"><div class="num"><i data-i="activity"></i><small>2</small></div><h3>Analyser les informations</h3><p>Vérification intelligente des dates et des lots.</p></div>
+  <div class="st rv"><div class="num"><i data-i="alert"></i><small>3</small></div><h3>Détecter les risques</h3><p>Identification automatique des produits expirés.</p></div>
+  <div class="st rv"><div class="num"><i data-i="bell"></i><small>4</small></div><h3>Notifier l'ARP</h3><p>Transmission des alertes aux autorités compétentes.</p></div></div>
+ <div class="prog"><i id="pg"></i></div></div></section>
+
+<section class="s gl" id="features"><div class="w"><div class="hd rv"><div class="kick">Fonctionnalités</div><h2>Tout pour contrôler vos <span class="gt">stocks pharmaceutiques</span></h2></div>
+ <div class="car" id="c-feat">
+  <div class="card rv"><div class="ico"><i data-i="scan"></i></div><h3>Scanner intelligent</h3><p>Scannez les produits avec QR Code, code-barres ou OCR.</p></div>
+  <div class="card rv"><div class="ico"><i data-i="layers"></i></div><h3>Gestion des lots</h3><p>Suivez chaque lot pharmaceutique avec précision.</p></div>
+  <div class="card rv"><div class="ico"><i data-i="alert"></i></div><h3>Détection automatique</h3><p>Identifiez rapidement les produits expirés.</p></div>
+  <div class="card rv"><div class="ico"><i data-i="bell"></i></div><h3>Alertes ARP</h3><p>Recevez et envoyez des notifications instantanées.</p></div>
+  <div class="card rv"><div class="ico"><i data-i="file"></i></div><h3>Rapports avancés</h3><p>Analysez les données avec des tableaux professionnels.</p></div>
+  <div class="card rv"><div class="ico"><i data-i="shield"></i></div><h3>Traçabilité complète</h3><p>Gardez un historique sécurisé des opérations.</p></div></div></div></section>
+
+<section class="s" id="scanner"><div class="w demo"><div class="rv"><div class="kick">Démo scanner</div><h2 style="font-size:clamp(28px,3.6vw,40px)">Un scan, une réponse <span class="gt">immédiate</span></h2><p style="color:var(--mu);margin:14px 0 24px;font-size:16.5px">Pointez l'emballage : le code, le lot et la date d'expiration sont lus, validés et classés en quelques secondes.</p><a class="btn p lg" href="DASH">Essayer le scanner</a></div>
+ <div class="ph rv" aria-hidden="true"><div class="sc2"><b style="display:flex;gap:8px;align-items:center"><i data-i="scan"></i>Scanner</b><div class="vf"><i></i><i></i><i></i><i></i></div><div class="res"><b style="color:var(--h)">Amoxicilline 500mg</b><dl><dt>Lot</dt><dd>PH-2026-001</dd><dt>Expiration</dt><dd>12/2026</dd><dt>Statut</dt><dd><span class="pill ok">✓ Conforme</span></dd></dl></div></div></div></div></section>
+
+<section class="s alt" id="monitor"><div class="w"><div class="hd rv"><div class="kick">Surveillance</div><h2>Produits récemment <span class="gt">analysés</span></h2></div>
+ <div class="car" style="--n:4" id="c-prod">
+  <div class="card prod rv"><div class="th"><i data-i="pill"></i></div><h3>Amoxicilline 500mg</h3><dl><dt>Lot</dt><dd>PH-2026-002</dd><dt>Expiration</dt><dd>15/12/2026</dd></dl><span class="pill ok">✓ Conforme</span><br><br><a class="btn" href="DASH" style="width:100%">Voir détails</a></div>
+  <div class="card prod rv"><div class="th"><i data-i="pill"></i></div><h3>Paracétamol 1 g</h3><dl><dt>Lot</dt><dd>PH-2026-014</dd><dt>Expiration</dt><dd>03/05/2027</dd></dl><span class="pill ok">✓ Conforme</span><br><br><a class="btn" href="DASH" style="width:100%">Voir détails</a></div>
+  <div class="card prod rv"><div class="th"><i data-i="pill"></i></div><h3>Quinine 300 mg</h3><dl><dt>Lot</dt><dd>PH-2025-087</dd><dt>Expiration</dt><dd>20/10/2026</dd></dl><span class="pill" style="background:#fff3e0;color:#8a5200">Expiration proche</span><br><br><a class="btn" href="DASH" style="width:100%">Voir détails</a></div>
+  <div class="card prod rv"><div class="th"><i data-i="pill"></i></div><h3>Métronidazole 250 mg</h3><dl><dt>Lot</dt><dd>PH-2024-231</dd><dt>Expiration</dt><dd>08/08/2026</dd></dl><span class="pill er">Expiré</span><br><br><a class="btn" href="DASH" style="width:100%">Voir détails</a></div></div>
+ <h3 id="alerts" style="margin:54px 0 18px;font-size:22px;display:flex;gap:10px;align-items:center">Alertes en cours <span class="pill er">3 nouvelles</span></h3>
+ <div class="car" id="c-al">
+  <div class="card al"><span class="bdg">1</span><div class="ico" style="background:linear-gradient(135deg,#d92d3a,#e8890c)"><i data-i="alert"></i></div><h3>Produit expiré détecté</h3><p><b>Amoxicilline 500 mg</b><br>420 unités · 2 lots · 03/10/2026</p></div>
+  <div class="card al"><span class="bdg">2</span><div class="ico" style="background:linear-gradient(135deg,#d92d3a,#e8890c)"><i data-i="alert"></i></div><h3>Produit expiré détecté</h3><p><b>Ciprofloxacine 500 mg</b><br>180 unités · 1 lot · 04/10/2026</p></div>
+  <div class="card al"><span class="bdg">3</span><div class="ico" style="background:linear-gradient(135deg,#d92d3a,#e8890c)"><i data-i="alert"></i></div><h3>Produit expiré détecté</h3><p><b>Métronidazole 250 mg</b><br>260 unités · 3 lots · 05/10/2026</p></div></div></div></section>
+
+<section class="s" id="about"><div class="w"><div class="hd rv"><div class="kick">Sécurité et confiance</div><h2>Conçue pour les <span class="gt">institutions de santé</span></h2></div>
+ <div class="car sec" id="c-sec">
+  <div class="card rv"><div class="ico"><i data-i="database"></i></div><h3>Sécurité des données</h3><p>Chiffrement et hébergement sécurisé.</p></div>
+  <div class="card rv"><div class="ico"><i data-i="shield"></i></div><h3>Traçabilité complète</h3><p>Chaque opération est horodatée et auditable.</p></div>
+  <div class="card rv"><div class="ico"><i data-i="award"></i></div><h3>Contrôle réglementaire</h3><p>Conforme aux exigences de l'ARP.</p></div>
+  <div class="card rv"><div class="ico"><i data-i="hospital"></i></div><h3>Collaboration</h3><p>Pharmacies et ARP sur un même registre.</p></div></div></div></section>
+</main>
+
+<footer><div class="w"><div class="fg"><div><a href="#home" class="logo"><svg><use href="#lg"/></svg>PharmaTrace</a><p style="margin-top:12px;max-width:300px">Solution numérique de surveillance pharmaceutique.</p><div class="soc"><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="X">X</a><a href="#" aria-label="Facebook">f</a></div></div>
+ <div><h4>Plateforme</h4><ul><li><a href="#features">Fonctionnalités</a></li><li><a href="#scanner">Scanner</a></li><li><a href="DASH">Dashboard</a></li></ul></div><div><h4>Ressources</h4><ul><li><a href="#">Documentation</a></li><li><a href="#">Support</a></li></ul></div><div><h4>Contact</h4><ul><li><a href="#">contact@pharmatrace.org</a></li><li>Kinshasa, RDC</li></ul></div></div>
+ <div class="cp">© 2026 PharmaTrace · Tous droits réservés</div></div></footer>
+
+<nav id="bn" aria-label="Navigation mobile"><a href="#home" class="on"><i data-i="home"></i>Accueil</a><a href="#scanner"><i data-i="scan"></i>Scanner</a><a href="#monitor"><i data-i="package"></i>Produits</a><a href="#alerts"><i data-i="bell"></i>Alertes</a><a href="DASH"><i data-i="user"></i>Profil</a></nav>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const D='PharmaTrace — Surveillance des produits pharmaceutiques.html';$$('a[href="DASH"]').forEach(a=>{a.href=D;a.target='_self';a.rel='';});
+const I={shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',scan:'<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/>',alert:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',activity:'<path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>',package:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',layers:'<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',file:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/>',pill:'<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',database:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',hospital:'<path d="M12 6v4"/><path d="M14 8h-4"/><path d="M18 12h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h2"/><path d="M18 22V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v18"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',home:'<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>'};
+$$('i[data-i]').forEach(e=>e.outerHTML=`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[e.dataset.i]}</svg>`);
+setTimeout(()=>$('#ld').classList.add('off'),900);
+/* header, burger, parallax, scrollspy */
+const hd=$('#hd'),bg=$('#bg'),dr=$('#drawer');
+bg.onclick=()=>{bg.classList.toggle('x');dr.classList.toggle('o')};$$('#drawer a').forEach(a=>a.onclick=()=>{bg.classList.remove('x');dr.classList.remove('o')});
+const spy=[['home','#home'],['scanner','#scanner'],['monitor','#monitor'],['alerts','#alerts']].map(a=>[document.getElementById(a[0]),$('#bn a[href="'+a[1]+'"]')]);
+addEventListener('scroll',()=>{const y=scrollY;hd.classList.toggle('sc',y>10);$$('.blob').forEach(b=>b.style.translate=`0 ${y*b.dataset.p}px`);
+ let cur=0;spy.forEach((s,i)=>{if(s[0].getBoundingClientRect().top<innerHeight*.45)cur=i});spy.forEach((s,i)=>s[1].classList.toggle('on',i==cur))},{passive:true});
+/* reveal + compteurs */
+function count(e){const t=+e.dataset.c,p=e.dataset.pre||'',s=e.dataset.suf||'',t0=performance.now();(function f(n){const k=Math.min(1,(n-t0)/1500);e.textContent=p+Math.round(t*(1-Math.pow(1-k,3))).toLocaleString('fr-FR')+s;k<1&&requestAnimationFrame(f)})(t0)}
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');x.target.querySelectorAll('[data-c]').forEach(count);io.unobserve(x.target)}}),{threshold:.2});
+$$('.rv').forEach((e,i)=>{e.style.transitionDelay=(i%4)*80+'ms';io.observe(e)});
+/* carrousels */
+function car(el){const k=[...el.children],dots=document.createElement('div');dots.className='dots';el.after(dots);
+ k.forEach((_,i)=>{const b=document.createElement('button');b.setAttribute('aria-label','Carte '+(i+1));b.onclick=()=>k[i].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});dots.append(b)});
+ const up=()=>{const c=el.scrollLeft+el.clientWidth/2;let b=0,m=1e9;k.forEach((x,i)=>{const d=Math.abs(x.offsetLeft+x.offsetWidth/2-c);if(d<m){m=d;b=i}});k.forEach((x,i)=>x.classList.toggle('act',i==b));[...dots.children].forEach((d,i)=>d.classList.toggle('on',i==b));el.dataset.i=b};
+ el.addEventListener('scroll',()=>requestAnimationFrame(up),{passive:true});addEventListener('resize',up);up()}
+$$('.car').forEach(car);
+/* étapes : défilement automatique lent (mobile) */
+const cs=$('#c-steps'),pb=$('#pg'),mq=matchMedia('(max-width:1000px)');
+function tick(){if(!mq.matches)return;const k=[...cs.children],n=((+cs.dataset.i||0)+1)%k.length;cs.scrollTo({left:k[n].offsetLeft-(cs.clientWidth-k[n].offsetWidth)/2*(innerWidth<=700?1:0)-(innerWidth<=700?0:0),behavior:'smooth'});pb.classList.remove('run');void pb.offsetWidth;pb.classList.add('run')}
+pb.classList.add('run');setInterval(tick,4500);
+</script></body></html>

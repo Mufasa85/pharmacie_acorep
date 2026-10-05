@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PharmaTrace — Surveillance des produits pharmaceutiques</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#131b6b;--g:#61AD87;--ga:#23d37b;--bg:#f5f7fb;--card:#fff;--tx:#0f1536;--mu:#5a6285;--bd:#e3e7f1;--sh:0 1px 2px rgba(19,27,107,.06),0 4px 14px rgba(19,27,107,.05);--okb:#e6f7ee;--okt:#0f6b43;--nb:#fff3e0;--nt:#8a5200;--eb:#fdecee;--et:#b4232f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0e2e;--card:#121847;--tx:#eef1ff;--mu:#a3abd6;--bd:#242c66;--okb:#0f3a2a;--okt:#7be8b2;--nb:#3d2a08;--nt:#ffc470;--eb:#44151b;--et:#ff9aa3}}
+:root[data-theme="dark"]{--bg:#0a0e2e;--card:#121847;--tx:#eef1ff;--mu:#a3abd6;--bd:#242c66;--okb:#0f3a2a;--okt:#7be8b2;--nb:#3d2a08;--nt:#ffc470;--eb:#44151b;--et:#ff9aa3}
+*{box-sizing:border-box;margin:0}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;min-height:100vh}
+.ic{width:18px;height:18px;flex:none;vertical-align:middle}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--ga);outline-offset:2px}
+#bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:3px;width:0;background:linear-gradient(90deg,var(--navy),var(--ga));z-index:99;transition:width .5s}
+aside{position:fixed;inset:0 auto 0 0;width:248px;background:linear-gradient(180deg,var(--navy),#0c1250);color:#fff;padding:22px 14px;display:flex;flex-direction:column;gap:6px;z-index:20}
+.logo{display:flex;gap:10px;align-items:center;font-weight:800;font-size:18px;padding:0 8px 22px}
+.logo b{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--g),var(--ga));display:grid;place-items:center;color:#06231a}
+.logo small{display:block;font-weight:500;font-size:11px;opacity:.7}
+.nav{display:flex;gap:12px;align-items:center;padding:11px 12px;border-radius:10px;background:none;border:0;color:#cfd4ff;text-align:left;width:100%;transition:.2s}
+.nav:hover{background:rgba(255,255,255,.08);color:#fff;transform:translateX(2px)}
+.nav.on{background:rgba(35,211,123,.16);color:#fff;box-shadow:inset 3px 0 var(--ga)}
+.nav em{margin-left:auto;background:#d92d3a;color:#fff;border-radius:99px;font-size:11px;font-style:normal;padding:0 7px;font-weight:700}
+.side-foot{margin-top:auto;font-size:12px;color:#aab2f5;padding:12px;border:1px solid rgba(255,255,255,.14);border-radius:12px;display:flex;gap:8px;align-items:center}
+main{margin-left:248px;padding:0 28px 40px;max-width:1500px}
+header.top{display:flex;gap:14px;align-items:center;padding:18px 0;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+header.top h1{font-size:22px;font-weight:800;letter-spacing:-.02em;flex:1}header.top p{font-size:13px;color:var(--mu);font-weight:400}
+.iconbtn{width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:var(--card);display:grid;place-items:center;position:relative}
+.iconbtn i{position:absolute;top:8px;right:9px;width:9px;height:9px;background:#d92d3a;border-radius:50%;border:2px solid var(--card)}
+.av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--g));color:#fff;display:grid;place-items:center;font-weight:700}
+.view{display:none}.view.on{display:block;animation:up .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--sh);padding:20px}
+.card h3{font-size:15px;font-weight:700;margin-bottom:2px}.sub{color:var(--mu);font-size:12.5px}
+.grid{display:grid;gap:16px}.g5{grid-template-columns:repeat(5,1fr)}.g3{grid-template-columns:1.6fr 1fr}.g2{grid-template-columns:1fr 1fr}.g21{grid-template-columns:1.1fr 1fr}
+.stat{position:relative;overflow:hidden;transition:.25s;opacity:0;animation:up .5s forwards}
+.stat:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(19,27,107,.14);border-color:var(--g)}
+.stat .ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(19,27,107,.1),rgba(97,173,135,.2));color:var(--navy)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .stat .ico{color:var(--ga)}}
+.stat .n{font-size:30px;font-weight:800;letter-spacing:-.03em;margin-top:12px}.stat .l{color:var(--mu);font-size:12.5px;font-weight:500}
+.stat svg.sp{position:absolute;right:0;bottom:0;width:55%;height:44px;opacity:.9}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.badge:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.b-ok{background:var(--okb);color:var(--okt)}.b-near{background:var(--nb);color:var(--nt)}.b-exp{background:var(--eb);color:var(--et)}
+.b-new{background:var(--navy);color:#fff;animation:pulse 2s infinite}.b-new:before{background:var(--ga)}
+@keyframes pulse{50%{box-shadow:0 0 0 5px rgba(35,211,123,.25)}}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:10px 18px;border-radius:10px;border:1px solid var(--bd);background:var(--card);font-weight:600;transition:.18s;box-shadow:0 1px 0 rgba(19,27,107,.08)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(19,27,107,.12)}.btn:active{transform:translateY(1px);box-shadow:none}
+.btn.p{background:linear-gradient(180deg,#1c2590,var(--navy));color:#fff;border-color:var(--navy);box-shadow:0 2px 0 #0a1048,0 6px 14px rgba(19,27,107,.3)}
+.btn.s{background:linear-gradient(180deg,#38e08c,var(--ga));color:#04281a;border-color:var(--ga);box-shadow:0 2px 0 #14a35c,0 6px 14px rgba(35,211,123,.35)}
+.tabs{display:inline-flex;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:4px;gap:4px}
+.tabs button{border:0;background:none;padding:8px 16px;border-radius:9px;font-weight:600;color:var(--mu);display:flex;gap:8px;align-items:center}
+.tabs button.on{background:var(--card);color:var(--tx);box-shadow:var(--sh)}
+/* scanner */
+.scan{position:relative;aspect-ratio:4/3;max-width:520px;margin:18px auto;border-radius:20px;background:radial-gradient(circle at 50% 40%,#1a2380,#080c36);overflow:hidden;display:grid;place-items:center;color:#fff}
+.scan:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 4px),linear-gradient(120deg,transparent 40%,rgba(97,173,135,.18) 50%,transparent 60%);background-size:100% 100%,200% 100%;animation:holo 5s linear infinite;pointer-events:none}
+@keyframes holo{to{background-position:0 0,-200% 0}}
+.frame{position:absolute;inset:14%;}
+.frame i{position:absolute;width:34px;height:34px;border:4px solid var(--ga);transition:.3s}
+.frame i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0;border-radius:10px 0 0 0}.frame i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0;border-radius:0 10px 0 0}
+.frame i:nth-child(3){bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 10px}.frame i:nth-child(4){bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 10px 0}
+.line{position:absolute;left:0;right:0;height:3px;top:0;background:linear-gradient(90deg,transparent,var(--ga),transparent);box-shadow:0 0 22px 6px rgba(35,211,123,.6);opacity:0}
+.scan.run .line{opacity:1;animation:sweep 1.6s ease-in-out infinite alternate}
+@keyframes sweep{to{top:calc(100% - 3px)}}
+.ring{position:absolute;width:86%;aspect-ratio:1;border-radius:50%;border:3px solid transparent;border-top-color:var(--ga);border-right-color:rgba(97,173,135,.5);opacity:0}
+.scan.run .ring{opacity:1;animation:spin 1.1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.scan .mid{display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.9;z-index:1;text-align:center}.scan .mid .ic{width:54px;height:54px;color:var(--ga)}
+.scan.ok .frame i{border-color:#fff;filter:drop-shadow(0 0 8px var(--ga));inset:auto}
+.scan.ok{animation:flash .6s}@keyframes flash{30%{box-shadow:0 0 0 6px rgba(35,211,123,.5)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{border:1px solid var(--bd);background:var(--card);padding:7px 14px;border-radius:99px;font-weight:600;font-size:12.5px;display:flex;gap:6px;align-items:center}
+.chip.on{border-color:var(--g);background:var(--okb);color:var(--okt)}
+.pbar{height:6px;background:var(--bd);border-radius:9px;overflow:hidden}.pbar>div{height:100%;width:0;background:linear-gradient(90deg,var(--navy),var(--ga));transition:width .2s}
+form .grid{grid-template-columns:repeat(3,1fr)}label{display:block;font-weight:600;font-size:12.5px;margin-bottom:5px}
+input,select{width:100%;height:42px;border:1px solid var(--bd);border-radius:10px;padding:0 12px;font:inherit;background:var(--card);color:var(--tx);transition:.15s}
+input:hover,select:hover{border-color:var(--g)}input:focus,select:focus{outline:3px solid rgba(35,211,123,.35);border-color:var(--ga)}
+input.bad{border-color:#d92d3a}
+.result{display:flex;gap:12px;align-items:center;padding:14px;border-radius:12px;border:1px solid var(--bd);margin-top:14px;background:var(--bg)}
+.state{text-align:center;padding:28px 10px}
+.chk{width:76px;height:76px;margin:0 auto 12px;border-radius:50%;background:var(--okb);display:grid;place-items:center;animation:pop .5s}
+.chk svg{width:40px;height:40px;stroke:var(--ga);stroke-width:3;stroke-dasharray:30;stroke-dashoffset:30;animation:draw .5s .25s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.1)}}
+.errbox{background:var(--eb);color:var(--et);border-radius:12px;padding:16px;display:flex;gap:12px;align-items:center;margin-top:14px;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.spin{width:18px;height:18px;border:2.5px solid var(--bd);border-top-color:var(--ga);border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+/* table */
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center}.tools input{max-width:300px;flex:1}.tools select{width:auto}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:760px}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mu);text-align:left;padding:10px 12px;border-bottom:1px solid var(--bd);cursor:pointer;user-select:none;white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--bd)}tbody tr{transition:.15s}tbody tr:hover{background:rgba(97,173,135,.08)}
+.thumb{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(19,27,107,.12),rgba(97,173,135,.3));color:var(--navy)}
+.pg{display:flex;gap:6px;justify-content:space-between;align-items:center;margin-top:14px;flex-wrap:wrap}.pg div{display:flex;gap:6px}
+.pg button{min-width:36px;height:36px;border-radius:9px;border:1px solid var(--bd);background:var(--card)}.pg button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}.cards .card{padding:16px;transition:.2s}.cards .card:hover{transform:translateY(-3px);border-color:var(--g)}
+/* alerts */
+.al{display:flex;gap:14px;padding:16px;border:1px solid var(--bd);border-left:4px solid #d92d3a;border-radius:12px;background:var(--card);margin-top:12px;animation:up .5s backwards;flex-wrap:wrap;align-items:center}
+.al.m{border-left-color:#e8890c}.al .grow{flex:1;min-width:200px}.al b{font-size:14.5px}.meta{display:flex;gap:14px;color:var(--mu);font-size:12.5px;flex-wrap:wrap;margin-top:4px}
+.tl{position:relative;padding-left:22px;margin-top:10px}.tl:before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--bd)}
+.tl div{position:relative;padding-bottom:16px}.tl div:before{content:"";position:absolute;left:-22px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--ga);border:3px solid var(--card);box-shadow:0 0 0 1px var(--g)}
+.tl small{color:var(--mu)}
+/* skeleton */
+.sk{background:linear-gradient(90deg,var(--bd) 25%,rgba(255,255,255,.5) 50%,var(--bd) 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:10px;min-height:16px}
+@keyframes sh{to{background-position:-200% 0}}
+#skel{display:none}#skel.on{display:block}
+#toasts{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px;z-index:99}
+.toast{background:var(--navy);color:#fff;padding:12px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);display:flex;gap:10px;align-items:center;animation:up .4s;border-left:4px solid var(--ga)}
+.legend{display:flex;flex-direction:column;gap:8px;font-size:13px}.legend span{display:flex;align-items:center;gap:8px}.legend i{width:10px;height:10px;border-radius:3px}
+@media(max-width:1180px){.g5{grid-template-columns:repeat(3,1fr)}.g3,.g21{grid-template-columns:1fr}}
+@media(max-width:820px){aside{inset:auto 0 0 0;width:auto;flex-direction:row;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));gap:2px;justify-content:space-around}.logo,.side-foot{display:none}
+.nav{flex-direction:column;gap:2px;font-size:11px;padding:6px 4px;justify-content:center;text-align:center;position:relative}.nav em{position:absolute;top:0;right:14%;margin:0}.nav.on{box-shadow:inset 0 3px var(--ga)}
+main{margin:0;padding:0 14px 90px}.g5{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}form .grid{grid-template-columns:1fr}header.top p{display:none}header.top h1{font-size:18px}#toasts{bottom:84px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style></head>
+<body>
+<div id="bar"></div>
+<aside aria-label="Navigation principale">
+ <div class="logo"><b><i data-i="pill"></i></b><div>PharmaTrace<small>Contrôle des expirations</small></div></div>
+ <button class="nav on" data-v="dash"><i data-i="activity"></i>Tableau de bord</button>
+ <button class="nav" data-v="scan"><i data-i="scan"></i>Scanner</button>
+ <button class="nav" data-v="prod"><i data-i="package"></i>Produits</button>
+ <button class="nav" data-v="alert"><i data-i="bell"></i>Alertes ARP<em>3</em></button>
+ <div class="side-foot"><i data-i="shield"></i><div>Connexion sécurisée<br><small>Traçabilité ARP active</small></div></div>
+</aside>
+<main>
+<header class="top"><div style="flex:1"><h1 id="title">Tableau de bord</h1><p id="subt">Vue d'ensemble de la conformité pharmaceutique</p></div>
+ <button class="iconbtn" aria-label="Notifications" onclick="go('alert')"><i data-i="bell"></i><i></i></button>
+ <div class="av" title="Pharmacie Centrale">PC</div></header>
+
+<div id="skel"></div>
+
+<!-- DASHBOARD -->
+<section class="view on" id="v-dash">
+ <div class="grid g5" id="stats"></div>
+ <div class="grid g3" style="margin-top:16px">
+  <div class="card"><h3>Courbe d'expiration</h3><p class="sub">Produits arrivant à expiration — 12 prochains mois</p><div id="line"></div></div>
+  <div class="card"><h3>Répartition par catégorie</h3><p class="sub">Part du stock sous surveillance</p><div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:10px"><div id="donut" style="width:150px"></div><div class="legend" id="leg"></div></div></div>
+ </div>
+ <div class="grid g2" style="margin-top:16px">
+  <div class="card"><h3>Statistiques mensuelles</h3><p class="sub">Produits expirés détectés par mois</p><div id="bars"></div></div>
+  <div class="card"><h3>États du système</h3><p class="sub">Aperçu des retours visuels de la plateforme</p>
+   <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0"><button class="btn" onclick="demo('load')"><span class="spin"></span>Chargement</button><button class="btn s" onclick="demo('ok')"><i data-i="check"></i>Succès</button><button class="btn" onclick="demo('err')"><i data-i="alert"></i>Erreur</button></div>
+   <div id="demo"><div class="sub">Sélectionnez un état pour le prévisualiser.</div></div></div>
+ </div>
+</section>
+
+<!-- SCANNER -->
+<section class="view" id="v-scan">
+ <div class="grid g21">
+  <div class="card">
+   <div style="text-align:center"><div class="tabs" role="tablist"><button class="on" data-t="auto"><i data-i="scan"></i>Scan automatique</button><button data-t="man"><i data-i="file"></i>Saisie manuelle</button></div></div>
+   <div id="t-auto">
+    <div class="scan" id="scan"><div class="ring"></div><div class="frame"><i></i><i></i><i></i><i></i><div class="line"></div></div><div class="mid"><i data-i="scan"></i><b id="sc-t">Placez le produit dans le cadre</b><small id="sc-s" style="opacity:.75">Code-barres · QR · DataMatrix · OCR</small></div></div>
+    <div class="chips" id="chips"><span class="chip on"><i data-i="scan"></i>Code-barres</span><span class="chip on"><i data-i="grid"></i>QR Code</span><span class="chip on"><i data-i="grid"></i>DataMatrix</span><span class="chip on"><i data-i="file"></i>OCR date d'expiration</span></div>
+    <div class="pbar" style="max-width:520px;margin:16px auto 0"><div id="sc-p"></div></div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap"><button class="btn s" id="go-scan"><i data-i="scan"></i>Lancer le scan</button><button class="btn" id="go-err">Simuler une erreur</button></div>
+    <div id="sc-res"></div>
+   </div>
+   <div id="t-man" style="display:none;margin-top:18px">
+    <form id="form" novalidate><div class="grid">
+     <div><label>Nom du produit *</label><input name="n" placeholder="Amoxicilline 500 mg" required></div>
+     <div><label>Code produit *</label><input name="c" placeholder="PH-000000" required></div>
+     <div><label>Numéro de lot *</label><input name="l" placeholder="LOT-2026-A12" required></div>
+     <div><label>Fabricant</label><input placeholder="Sanofi, Pfizer…"></div>
+     <div><label>Quantité disponible</label><input type="number" min="0" placeholder="0"></div>
+     <div><label>Fournisseur</label><input placeholder="Distributeur agréé"></div>
+     <div><label>Date de fabrication</label><input type="date" id="dm"></div>
+     <div><label>Date d'expiration *</label><input type="date" id="de" required></div>
+     <div><label>Catégorie</label><select><option>Antibiotiques</option><option>Antalgiques</option><option>Antipaludéens</option><option>Cardiologie</option><option>Vaccins</option></select></div>
+    </div>
+    <div id="live" style="margin-top:14px"></div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="btn p" type="submit"><i data-i="shield"></i>Enregistrer le produit</button><button class="btn" type="reset">Réinitialiser</button></div></form>
+    <div id="f-res"></div>
+   </div>
+  </div>
+  <div class="card"><h3>Contrôles de conformité</h3><p class="sub">Validation automatique à chaque enregistrement</p>
+   <div class="tl"><div><b>Lecture du code</b><br><small>GS1 DataMatrix, EAN-13, QR</small></div><div><b>Vérification de la date</b><br><small>OCR + validation croisée du lot</small></div><div><b>Calcul du statut</b><br><small>Valide · Proche (≤ 90 j) · Expiré</small></div><div><b>Alerte ARP</b><br><small>Envoi automatique si produit expiré</small></div></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><span class="badge b-ok">Valide</span><span class="badge b-near">Expiration proche</span><span class="badge b-exp">Expiré</span></div></div>
+ </div>
+</section>
+
+<!-- PRODUITS -->
+<section class="view" id="v-prod"><div class="card">
+ <div class="tools"><div style="position:relative;flex:1;max-width:320px;min-width:180px"><input id="q" placeholder="Rechercher nom, code, lot…" aria-label="Recherche" style="padding-left:38px"><span style="position:absolute;left:12px;top:11px;color:var(--mu)"><i data-i="search"></i></span></div>
+  <select id="fs" aria-label="Statut"><option value="">Tous les statuts</option><option value="ok">Valides</option><option value="near">Expiration proche</option><option value="exp">Expirés</option></select>
+  <select id="fc" aria-label="Catégorie"><option value="">Toutes catégories</option></select>
+  <div class="tabs" style="margin-left:auto"><button class="on" data-vw="t" aria-label="Vue tableau"><i data-i="list"></i></button><button data-vw="c" aria-label="Vue cartes"><i data-i="grid"></i></button></div></div>
+ <div id="plist"></div><div class="pg" id="pg"></div></div></section>
+
+<!-- ALERTES -->
+<section class="view" id="v-alert">
+ <div class="grid g3">
+  <div class="card"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3 style="flex:1;font-size:17px">Alertes critiques</h3><span class="badge b-new">Nouvelle alerte</span></div>
+   <p class="sub" id="al-sum"></p><div id="als"></div></div>
+  <div class="card"><h3>Historique des notifications</h3><p class="sub">Journal de traçabilité vers l'ARP</p>
+   <div class="tl"><div><b>Rapport hebdomadaire transmis</b><br><small>Aujourd'hui · 08:12</small></div><div><b>Alerte lot LOT-24-0917 acceptée</b><br><small>Hier · 16:40 · Réf. ARP-88214</small></div><div><b>Inspection planifiée</b><br><small>02 oct. · 10:05</small></div><div><b>Quarantaine confirmée (3 lots)</b><br><small>28 sept. · 14:22</small></div><div><b>Export du registre signé</b><br><small>20 sept. · 09:00</small></div></div></div>
+ </div>
+</section>
+</main>
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const I={pill:'<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',scan:'<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/>',package:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',cal:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',alert:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',file:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',activity:'<path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>',hospital:'<path d="M12 6v4"/><path d="M14 8h-4"/><path d="M18 12h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h2"/><path d="M18 22V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v18"/>',micro:'<path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/>',check:'<path d="M20 6 9 17l-5-5"/>',search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',grid:'<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>',list:'<path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/>',refresh:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>'};
+const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
+const icons=()=>$$('i[data-i]').forEach(e=>e.outerHTML=ic(e.dataset.i));
+const day=d=>{const x=new Date();x.setDate(x.getDate()+d);return x};
+const fd=d=>d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+const stOf=d=>d<0?'exp':d<=90?'near':'ok',LB={ok:'Produit valide',near:'Expiration proche',exp:'Produit expiré'};
+const bd=s=>`<span class="badge b-${s}">${LB[s]}</span>`;
+const CATS=['Antibiotiques','Antalgiques','Antipaludéens','Cardiologie','Vaccins'],COL=['#131b6b','#61AD87','#23d37b','#5b6bd6','#a9d8c1'];
+const P=[['Amoxicilline 500 mg','PH-100231','LOT-24-0917',420,-34,0],['Paracétamol 1 g','PH-100482','LOT-25-1102',1250,210,1],['Artéméther/Luméfantrine','PH-200917','LOT-25-0344',310,41,2],['Ciprofloxacine 500 mg','PH-100877','LOT-24-0611',180,-12,0],['Amlodipine 5 mg','PH-300125','LOT-25-0720',640,380,3],['Vaccin DTC-HepB','PH-400019','LOT-26-0102',95,22,4],['Ibuprofène 400 mg','PH-100563','LOT-25-0099',880,64,1],['Métronidazole 250 mg','PH-100744','LOT-24-1230',260,-58,0],['Atorvastatine 20 mg','PH-300288','LOT-26-0210',500,520,3],['Quinine 300 mg','PH-200341','LOT-25-0817',150,15,2],['Azithromycine 250 mg','PH-100905','LOT-26-0305',330,430,0],['Tramadol 50 mg','PH-100612','LOT-25-0521',75,-3,1]].map(a=>({n:a[0],c:a[1],l:a[2],q:a[3],d:a[4],cat:a[5],s:stOf(a[4])}));
+const toast=m=>{const t=document.createElement('div');t.className='toast';t.innerHTML=ic('shield')+m;$('#toasts').append(t);setTimeout(()=>t.remove(),3800)};
+/* counters + stats */
+const ST=[['Produits enregistrés',12480,'package',[3,4,4,5,6,6,7,8],'#61AD87'],['Produits expirés',214,'alert',[2,3,2,4,5,4,6,7],'#d92d3a'],['Bientôt expirés',389,'cal',[5,4,6,5,7,8,7,9],'#e8890c'],['Lots concernés',47,'micro',[2,2,3,3,4,4,5,5],'#131b6b'],['Alertes envoyées à l\'ARP',23,'bell',[1,2,2,3,3,4,4,5],'#23d37b']];
+const spark=(a,c)=>{const m=Math.max(...a),p=a.map((v,i)=>`${i*(100/7)},${40-v/m*34}`).join(' ');return`<svg class="sp" viewBox="0 0 100 44" preserveAspectRatio="none"><polygon points="0,44 ${p} 100,44" fill="${c}" opacity=".15"/><polyline points="${p}" fill="none" stroke="${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`};
+function counters(){$('#stats').innerHTML=ST.map((s,i)=>`<div class="card stat" style="animation-delay:${i*70}ms"><div class="ico">${ic(s[2])}</div><div class="n" data-c="${s[1]}">0</div><div class="l">${s[0]}</div>${spark(s[3],s[4])}</div>`).join('');
+ $$('[data-c]').forEach(e=>{const t=+e.dataset.c,t0=performance.now();(function f(n){const k=Math.min(1,(n-t0)/1100);e.textContent=Math.round(t*(1-Math.pow(1-k,3))).toLocaleString('fr-FR');k<1&&requestAnimationFrame(f)})(t0)})}
+function charts(){const L=[12,18,15,26,34,30,41,38,52,47,60,66],W=600,H=210,mx=70;
+ const pts=L.map((v,i)=>[30+i*(W-50)/11,H-24-v/mx*(H-44)]),path=pts.map((p,i)=>(i?'L':'M')+p[0]+','+p[1]).join(' ');
+ $('#line').innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%"><defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#61AD87" stop-opacity=".4"/><stop offset="1" stop-color="#61AD87" stop-opacity="0"/></linearGradient></defs>${[0,1,2,3].map(i=>`<line x1="30" x2="${W-20}" y1="${20+i*55}" y2="${20+i*55}" stroke="currentColor" opacity=".1"/>`).join('')}<path d="${path} L${pts[11][0]},${H-24} L30,${H-24}Z" fill="url(#lg)"/><path d="${path}" fill="none" stroke="#61AD87" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="1" style="animation:dr 1.4s ease-out"/>${pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#fff" stroke="#131b6b" stroke-width="2.5"/>`).join('')}${['N','D','J','F','M','A','M','J','J','A','S','O'].map((m,i)=>`<text x="${30+i*(W-50)/11}" y="${H-5}" font-size="11" fill="currentColor" opacity=".6" text-anchor="middle">${m}</text>`).join('')}</svg><style>@keyframes dr{from{stroke-dashoffset:1}}</style>`;
+ const B=[22,31,18,40,27,35,44,29,38,50,33,47];
+ $('#bars').innerHTML=`<svg viewBox="0 0 600 190" style="width:100%">${B.map((v,i)=>`<rect x="${14+i*48}" width="30" rx="6" y="${165-v*3}" height="${v*3}" fill="${i==11?'#23d37b':'#131b6b'}" opacity="${i==11?1:.85}"><animate attributeName="height" from="0" to="${v*3}" dur=".8s"/><animate attributeName="y" from="165" to="${165-v*3}" dur=".8s"/></rect><text x="${29+i*48}" y="182" font-size="11" fill="currentColor" opacity=".6" text-anchor="middle">${['J','F','M','A','M','J','J','A','S','O','N','D'][i]}</text>`).join('')}</svg>`;
+ const D=[34,22,20,15,9],r=54,C=2*Math.PI*r;let o=0;
+ $('#donut').innerHTML=`<svg viewBox="0 0 150 150"><g transform="rotate(-90 75 75)">${D.map((v,i)=>{const l=v/100*C,s=`<circle cx="75" cy="75" r="${r}" fill="none" stroke="${COL[i]}" stroke-width="20" stroke-dasharray="${l-2} ${C}" stroke-dashoffset="${-o}"/>`;o+=l;return s}).join('')}</g><text x="75" y="72" text-anchor="middle" font-size="22" font-weight="800" fill="currentColor">12,5k</text><text x="75" y="90" text-anchor="middle" font-size="10" fill="currentColor" opacity=".6">références</text></svg>`;
+ $('#leg').innerHTML=CATS.map((c,i)=>`<span><i style="background:${COL[i]}"></i>${c} <b>${D[i]}%</b></span>`).join('')}
+/* navigation + loaders */
+const T={dash:['Tableau de bord','Vue d\'ensemble de la conformité pharmaceutique'],scan:['Scanner produit','Enregistrez un médicament et contrôlez sa date d\'expiration'],prod:['Gestion des produits','Inventaire, statuts et traçabilité par lot'],alert:['Alertes ARP','Notifications institutionnelles et historique']};
+const rows=n=>Array(n).fill('<div class="sk" style="height:44px;margin-top:10px"></div>').join('');
+const SK={dash:`<div class="grid g5">${Array(5).fill('<div class="card"><div class="sk" style="height:38px;width:38px"></div><div class="sk" style="height:30px;margin-top:14px;width:60%"></div><div class="sk" style="margin-top:10px;width:80%"></div></div>').join('')}</div><div class="grid g3" style="margin-top:16px"><div class="card"><div class="sk" style="height:230px"></div></div><div class="card"><div class="sk" style="height:230px"></div></div></div>`,prod:`<div class="card"><div class="sk" style="height:42px;width:40%"></div>${rows(7)}</div>`};
+let cur='dash',busy=0;
+function go(v,quick){if(busy||(v==cur&&!quick))return;busy=1;cur=v;const bar=$('#bar');bar.style.width='0';requestAnimationFrame(()=>bar.style.width='75%');
+ $$('.nav').forEach(b=>b.classList.toggle('on',b.dataset.v==v));$$('.view').forEach(x=>x.classList.remove('on'));
+ $('#title').textContent=T[v][0];$('#subt').textContent=T[v][1];
+ $('#skel').innerHTML=SK[v]||`<div class="card"><div class="sk" style="height:260px"></div>${rows(2)}</div>`;$('#skel').classList.add('on');
+ setTimeout(()=>{bar.style.width='100%';$('#skel').classList.remove('on');$('#v-'+v).classList.add('on');if(v=='dash')counters(),charts();if(v=='alert')alerts();setTimeout(()=>{bar.style.width='0';busy=0},350)},650)}
+$$('.nav').forEach(b=>b.onclick=()=>go(b.dataset.v));
+/* états */
+function demo(k){const d=$('#demo');if(k=='load'){d.innerHTML='<div class="state"><span class="spin" style="width:34px;height:34px"></span><p class="sub" style="margin-top:12px">Chargement des données…</p><div class="pbar" style="margin-top:10px"><div style="width:100%;transition:width 1.6s"></div></div></div>';const b=d.querySelector('.pbar>div');b.style.width='0';requestAnimationFrame(()=>requestAnimationFrame(()=>b.style.width='100%'))}
+ else if(k=='ok')d.innerHTML='<div class="state"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><b>Produit enregistré</b><p class="sub">Traçabilité mise à jour avec succès.</p></div>';
+ else d.innerHTML=`<div class="errbox">${ic('alert')}<div style="flex:1"><b>Échec de la synchronisation</b><br>Impossible de joindre le registre. Vérifiez votre connexion.</div><button class="btn" onclick="demo('load')">${ic('refresh')}Réessayer</button></div>`}
+/* scanner */
+$$('.tabs [data-t]').forEach(b=>b.onclick=()=>{$$('.tabs [data-t]').forEach(x=>x.classList.toggle('on',x==b));$('#t-auto').style.display=b.dataset.t=='auto'?'':'none';$('#t-man').style.display=b.dataset.t=='man'?'':'none'});
+function scan(fail){const s=$('#scan'),p=$('#sc-p');s.classList.remove('ok');s.classList.add('run');$('#sc-res').innerHTML='';$('#sc-t').textContent='Analyse en cours…';$('#sc-s').textContent='Lecture du code et OCR de la date';let v=0;
+ const t=setInterval(()=>{v+=4+Math.random()*6;p.style.width=Math.min(v,100)+'%';if(v>=100){clearInterval(t);s.classList.remove('run');
+  if(fail){p.style.width='0';$('#sc-t').textContent='Code illisible';$('#sc-s').textContent='Améliorez l\'éclairage et réessayez';$('#sc-res').innerHTML=`<div class="errbox">${ic('alert')}<div style="flex:1"><b>Aucun code détecté</b><br>Le produit n'a pas pu être identifié.</div><button class="btn" onclick="scan()">${ic('refresh')}Réessayer</button></div>`;return}
+  s.classList.add('ok');$('#sc-t').textContent='Produit reconnu';$('#sc-s').textContent='GS1 DataMatrix · confiance 99,2 %';const x=P[[0,2,5,4][Math.random()*4|0]];
+  $('#sc-res').innerHTML=`<div class="result" style="animation:up .5s"><div class="thumb">${ic('pill')}</div><div style="flex:1"><b>${x.n}</b><div class="sub">${x.c} · ${x.l} · Exp. ${fd(day(x.d))} (OCR)</div></div>${bd(x.s)}</div><div style="display:flex;gap:10px;margin-top:12px"><button class="btn s" onclick="toast('Produit ajouté à l\\'inventaire')">${ic('check')}Confirmer</button><button class="btn" onclick="scan()">Nouveau scan</button></div>`}},120)}
+$('#go-scan').onclick=()=>scan();$('#go-err').onclick=()=>scan(1);
+/* formulaire */
+function live(){const v=$('#de').value;if(!v){$('#live').innerHTML='';return}const d=Math.ceil((new Date(v)-new Date().setHours(0,0,0,0))/864e5),s=stOf(d),m=$('#dm').value;
+ $('#live').innerHTML=`<div class="result" style="margin:0">${bd(s)}<span class="sub">${d<0?'Expiré depuis '+(-d)+' jours':'Expire dans '+d+' jours'}${m&&new Date(m)>new Date(v)?' — ⚠ fabrication postérieure à l\'expiration':''}</span></div>`}
+$('#de').oninput=live;$('#dm').oninput=live;
+$('#form').onsubmit=e=>{e.preventDefault();const r=[...$('#form').querySelectorAll('[required]')];let bad=0;r.forEach(i=>{i.classList.toggle('bad',!i.value);if(!i.value)bad=1});
+ if(bad){$('#f-res').innerHTML=`<div class="errbox">${ic('alert')}<div style="flex:1"><b>Champs obligatoires manquants</b><br>Complétez les champs signalés en rouge.</div><button class="btn" onclick="$('#f-res').innerHTML=''">${ic('refresh')}Réessayer</button></div>`;return}
+ $('#f-res').innerHTML='<div class="state"><span class="spin" style="width:30px;height:30px"></span><p class="sub" style="margin-top:8px">Enregistrement sécurisé…</p></div>';
+ setTimeout(()=>{$('#f-res').innerHTML='<div class="state"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><b>Produit enregistré avec succès</b><p class="sub">Le statut a été calculé et le lot est tracé.</p></div>';toast('Produit enregistré');$('#form').reset();$('#live').innerHTML=''},1100)};
+/* produits */
+let sort={k:'d',a:1},page=1,vw='t';const PS=6;
+const fc=$('#fc');CATS.forEach((c,i)=>fc.innerHTML+=`<option value="${i}">${c}</option>`);
+function list(){const q=$('#q').value.toLowerCase(),fs=$('#fs').value,c=fc.value;
+ let a=P.filter(p=>(!q||(p.n+p.c+p.l).toLowerCase().includes(q))&&(!fs||p.s==fs)&&(c===''||p.cat==c)).sort((x,y)=>(x[sort.k]>y[sort.k]?1:-1)*sort.a);
+ const pc=Math.max(1,Math.ceil(a.length/PS));page=Math.min(page,pc);const v=a.slice((page-1)*PS,page*PS);
+ const th=(k,l)=>`<th data-k="${k}">${l}${sort.k==k?(sort.a>0?' ↑':' ↓'):''}</th>`;
+ $('#plist').innerHTML=!v.length?'<div class="state sub">Aucun résultat pour ces filtres.</div>':vw=='t'?`<div class="tw"><table><thead><tr><th>Image</th>${th('n','Nom')}${th('c','Code')}${th('l','Lot')}${th('q','Qté')}${th('d','Expiration')}${th('s','Statut')}<th>Actions</th></tr></thead><tbody>${v.map(p=>`<tr><td><div class="thumb">${ic('pill')}</div></td><td><b>${p.n}</b><div class="sub">${CATS[p.cat]}</div></td><td>${p.c}</td><td>${p.l}</td><td>${p.q}</td><td>${fd(day(p.d))}</td><td>${bd(p.s)}</td><td><button class="btn" style="padding:6px 10px" onclick="toast('Fiche ${p.c} ouverte')">Voir</button></td></tr>`).join('')}</tbody></table></div>`:`<div class="cards">${v.map(p=>`<div class="card"><div style="display:flex;justify-content:space-between"><div class="thumb">${ic('pill')}</div>${bd(p.s)}</div><b style="display:block;margin-top:12px">${p.n}</b><div class="sub">${p.c} · ${p.l}</div><div class="sub" style="margin-top:8px">Qté ${p.q} · Exp. ${fd(day(p.d))}</div></div>`).join('')}</div>`;
+ $('#pg').innerHTML=`<span class="sub">${a.length} produit(s)</span><div>${Array.from({length:pc},(_,i)=>`<button class="${i+1==page?'on':''}" data-p="${i+1}">${i+1}</button>`).join('')}</div>`;
+ $$('#plist th[data-k]').forEach(h=>h.onclick=()=>{sort={k:h.dataset.k,a:sort.k==h.dataset.k?-sort.a:1};list()});$$('#pg [data-p]').forEach(b=>b.onclick=()=>{page=+b.dataset.p;list()})}
+['#q','#fs','#fc'].forEach(s=>$(s).oninput=()=>{page=1;list()});
+$$('[data-vw]').forEach(b=>b.onclick=()=>{vw=b.dataset.vw;$$('[data-vw]').forEach(x=>x.classList.toggle('on',x==b));list()});
+/* alertes */
+function alerts(){const ex=P.filter(p=>p.s=='exp'),near=P.filter(p=>p.s=='near').slice(0,1),A=[...ex,...near];
+ $('#al-sum').textContent=`${ex.length} médicaments expirés · ${new Set(ex.map(p=>p.l)).size} lots concernés · ${ex.reduce((s,p)=>s+p.q,0)} unités au total`;
+ $('#als').innerHTML=A.map((p,i)=>`<div class="al ${p.s=='exp'?'':'m'}" style="animation-delay:${i*90}ms"><div class="thumb">${ic('alert')}</div><div class="grow"><b>${p.n}</b> ${i<2?'<span class="badge b-new" style="margin-left:6px">Nouvelle</span>':''}<div class="meta"><span>Lot ${p.l}</span><span>Exp. ${fd(day(p.d))}</span><span>${p.q} unités</span></div></div><span class="badge b-${p.s}">${p.s=='exp'?'Priorité critique':'Priorité moyenne'}</span><button class="btn p" style="padding:7px 12px" onclick="this.innerHTML='${ic('check').replace(/'/g,'&quot;')}Transmis';toast('Alerte transmise à l\\'ARP')">Notifier l'ARP</button></div>`).join('')}
+icons();counters();charts();list();
+</script></body></html>
