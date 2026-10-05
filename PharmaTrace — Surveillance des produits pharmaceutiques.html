@@ -267,8 +267,11 @@ function list(){const q=$('#q').value.toLowerCase(),fs=$('#fs').value,c=fc.value
 ['#q','#fs','#fc'].forEach(s=>$(s).oninput=()=>{page=1;list()});
 $$('[data-vw]').forEach(b=>b.onclick=()=>{vw=b.dataset.vw;$$('[data-vw]').forEach(x=>x.classList.toggle('on',x==b));list()});
 /* alertes */
+function sendAlert(btn){if(btn.dataset.sent)return;btn.dataset.sent=1;btn.innerHTML=ic('check')+'Transmis';btn.disabled=true;btn.style.opacity=.7;btn.style.cursor='default';toast('Alerte transmise à l\u2019acorep')}
 function alerts(){const ex=P.filter(p=>p.s=='exp'),near=P.filter(p=>p.s=='near').slice(0,1),A=[...ex,...near];
  $('#al-sum').textContent=`${ex.length} médicaments expirés · ${new Set(ex.map(p=>p.l)).size} lots concernés · ${ex.reduce((s,p)=>s+p.q,0)} unités au total`;
- $('#als').innerHTML=A.map((p,i)=>`<div class="al ${p.s=='exp'?'':'m'}" style="animation-delay:${i*90}ms"><div class="thumb">${ic('alert')}</div><div class="grow"><b>${p.n}</b> ${i<2?'<span class="badge b-new" style="margin-left:6px">Nouvelle</span>':''}<div class="meta"><span>Lot ${p.l}</span><span>Exp. ${fd(day(p.d))}</span><span>${p.q} unités</span></div></div><span class="badge b-${p.s}">${p.s=='exp'?'Priorité critique':'Priorité moyenne'}</span><button class="btn p" style="padding:7px 12px" onclick="this.innerHTML='${ic('check').replace(/'/g,'&quot;')}Transmis';toast('Alerte transmise à l\\'acorep')">Notifier l'acorep</button></div>`).join('')}
+ const html=A.map((p,i)=>`<div class="al ${p.s=='exp'?'':'m'}" style="animation-delay:${i*90}ms"><div class="thumb">${ic('alert')}</div><div class="grow"><b>${p.n}</b> ${i<2?'<span class="badge b-new" style="margin-left:6px">Nouvelle</span>':''}<div class="meta"><span>Lot ${p.l}</span><span>Exp. ${fd(day(p.d))}</span><span>${p.q} unités</span></div></div><span class="badge b-${p.s}">${p.s=='exp'?'Priorité critique':'Priorité moyenne'}</span><button class="btn p" style="padding:7px 12px">Notifier l'acorep</button></div>`).join('');
+ $('#als').innerHTML=html;
+ $$('#als .btn.p').forEach(b=>{b.onclick=()=>sendAlert(b)})}
 icons();counters();charts();list();
 </script></body></html>
