@@ -118,8 +118,8 @@ main{margin:0;padding:0 14px 90px}.g5{grid-template-columns:1fr 1fr}.g2{grid-tem
  <button class="nav on" data-v="dash"><i data-i="activity"></i>Tableau de bord</button>
  <button class="nav" data-v="scan"><i data-i="scan"></i>Scanner</button>
  <button class="nav" data-v="prod"><i data-i="package"></i>Produits</button>
- <button class="nav" data-v="alert"><i data-i="bell"></i>Alertes ARP<em>3</em></button>
- <div class="side-foot"><i data-i="shield"></i><div>Connexion sécurisée<br><small>Traçabilité ARP active</small></div></div>
+ <button class="nav" data-v="alert"><i data-i="bell"></i>Alertes acorep<em>3</em></button>
+ <div class="side-foot"><i data-i="shield"></i><div>Connexion sécurisée<br><small>Traçabilité acorep active</small></div></div>
 </aside>
 <main>
 <header class="top"><div style="flex:1"><h1 id="title">Tableau de bord</h1><p id="subt">Vue d'ensemble de la conformité pharmaceutique</p></div>
@@ -173,7 +173,7 @@ main{margin:0;padding:0 14px 90px}.g5{grid-template-columns:1fr 1fr}.g2{grid-tem
    </div>
   </div>
   <div class="card"><h3>Contrôles de conformité</h3><p class="sub">Validation automatique à chaque enregistrement</p>
-   <div class="tl"><div><b>Lecture du code</b><br><small>GS1 DataMatrix, EAN-13, QR</small></div><div><b>Vérification de la date</b><br><small>OCR + validation croisée du lot</small></div><div><b>Calcul du statut</b><br><small>Valide · Proche (≤ 90 j) · Expiré</small></div><div><b>Alerte ARP</b><br><small>Envoi automatique si produit expiré</small></div></div>
+   <div class="tl"><div><b>Lecture du code</b><br><small>GS1 DataMatrix, EAN-13, QR</small></div><div><b>Vérification de la date</b><br><small>OCR + validation croisée du lot</small></div><div><b>Calcul du statut</b><br><small>Valide · Proche (≤ 90 j) · Expiré</small></div><div><b>Alerte acorep</b><br><small>Envoi automatique si produit expiré</small></div></div>
    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><span class="badge b-ok">Valide</span><span class="badge b-near">Expiration proche</span><span class="badge b-exp">Expiré</span></div></div>
  </div>
 </section>
@@ -191,8 +191,8 @@ main{margin:0;padding:0 14px 90px}.g5{grid-template-columns:1fr 1fr}.g2{grid-tem
  <div class="grid g3">
   <div class="card"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3 style="flex:1;font-size:17px">Alertes critiques</h3><span class="badge b-new">Nouvelle alerte</span></div>
    <p class="sub" id="al-sum"></p><div id="als"></div></div>
-  <div class="card"><h3>Historique des notifications</h3><p class="sub">Journal de traçabilité vers l'ARP</p>
-   <div class="tl"><div><b>Rapport hebdomadaire transmis</b><br><small>Aujourd'hui · 08:12</small></div><div><b>Alerte lot LOT-24-0917 acceptée</b><br><small>Hier · 16:40 · Réf. ARP-88214</small></div><div><b>Inspection planifiée</b><br><small>02 oct. · 10:05</small></div><div><b>Quarantaine confirmée (3 lots)</b><br><small>28 sept. · 14:22</small></div><div><b>Export du registre signé</b><br><small>20 sept. · 09:00</small></div></div></div>
+  <div class="card"><h3>Historique des notifications</h3><p class="sub">Journal de traçabilité vers l'acorep</p>
+   <div class="tl"><div><b>Rapport hebdomadaire transmis</b><br><small>Aujourd'hui · 08:12</small></div><div><b>Alerte lot LOT-24-0917 acceptée</b><br><small>Hier · 16:40 · Réf. acorep-88214</small></div><div><b>Inspection planifiée</b><br><small>02 oct. · 10:05</small></div><div><b>Quarantaine confirmée (3 lots)</b><br><small>28 sept. · 14:22</small></div><div><b>Export du registre signé</b><br><small>20 sept. · 09:00</small></div></div></div>
  </div>
 </section>
 </main>
@@ -211,7 +211,7 @@ const CATS=['Antibiotiques','Antalgiques','Antipaludéens','Cardiologie','Vaccin
 const P=[['Amoxicilline 500 mg','PH-100231','LOT-24-0917',420,-34,0],['Paracétamol 1 g','PH-100482','LOT-25-1102',1250,210,1],['Artéméther/Luméfantrine','PH-200917','LOT-25-0344',310,41,2],['Ciprofloxacine 500 mg','PH-100877','LOT-24-0611',180,-12,0],['Amlodipine 5 mg','PH-300125','LOT-25-0720',640,380,3],['Vaccin DTC-HepB','PH-400019','LOT-26-0102',95,22,4],['Ibuprofène 400 mg','PH-100563','LOT-25-0099',880,64,1],['Métronidazole 250 mg','PH-100744','LOT-24-1230',260,-58,0],['Atorvastatine 20 mg','PH-300288','LOT-26-0210',500,520,3],['Quinine 300 mg','PH-200341','LOT-25-0817',150,15,2],['Azithromycine 250 mg','PH-100905','LOT-26-0305',330,430,0],['Tramadol 50 mg','PH-100612','LOT-25-0521',75,-3,1]].map(a=>({n:a[0],c:a[1],l:a[2],q:a[3],d:a[4],cat:a[5],s:stOf(a[4])}));
 const toast=m=>{const t=document.createElement('div');t.className='toast';t.innerHTML=ic('shield')+m;$('#toasts').append(t);setTimeout(()=>t.remove(),3800)};
 /* counters + stats */
-const ST=[['Produits enregistrés',12480,'package',[3,4,4,5,6,6,7,8],'#61AD87'],['Produits expirés',214,'alert',[2,3,2,4,5,4,6,7],'#d92d3a'],['Bientôt expirés',389,'cal',[5,4,6,5,7,8,7,9],'#e8890c'],['Lots concernés',47,'micro',[2,2,3,3,4,4,5,5],'#131b6b'],['Alertes envoyées à l\'ARP',23,'bell',[1,2,2,3,3,4,4,5],'#23d37b']];
+const ST=[['Produits enregistrés',12480,'package',[3,4,4,5,6,6,7,8],'#61AD87'],['Produits expirés',214,'alert',[2,3,2,4,5,4,6,7],'#d92d3a'],['Bientôt expirés',389,'cal',[5,4,6,5,7,8,7,9],'#e8890c'],['Lots concernés',47,'micro',[2,2,3,3,4,4,5,5],'#131b6b'],['Alertes envoyées à l\'acorep',23,'bell',[1,2,2,3,3,4,4,5],'#23d37b']];
 const spark=(a,c)=>{const m=Math.max(...a),p=a.map((v,i)=>`${i*(100/7)},${40-v/m*34}`).join(' ');return`<svg class="sp" viewBox="0 0 100 44" preserveAspectRatio="none"><polygon points="0,44 ${p} 100,44" fill="${c}" opacity=".15"/><polyline points="${p}" fill="none" stroke="${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`};
 function counters(){$('#stats').innerHTML=ST.map((s,i)=>`<div class="card stat" style="animation-delay:${i*70}ms"><div class="ico">${ic(s[2])}</div><div class="n" data-c="${s[1]}">0</div><div class="l">${s[0]}</div>${spark(s[3],s[4])}</div>`).join('');
  $$('[data-c]').forEach(e=>{const t=+e.dataset.c,t0=performance.now();(function f(n){const k=Math.min(1,(n-t0)/1100);e.textContent=Math.round(t*(1-Math.pow(1-k,3))).toLocaleString('fr-FR');k<1&&requestAnimationFrame(f)})(t0)})}
@@ -224,7 +224,7 @@ function charts(){const L=[12,18,15,26,34,30,41,38,52,47,60,66],W=600,H=210,mx=7
  $('#donut').innerHTML=`<svg viewBox="0 0 150 150"><g transform="rotate(-90 75 75)">${D.map((v,i)=>{const l=v/100*C,s=`<circle cx="75" cy="75" r="${r}" fill="none" stroke="${COL[i]}" stroke-width="20" stroke-dasharray="${l-2} ${C}" stroke-dashoffset="${-o}"/>`;o+=l;return s}).join('')}</g><text x="75" y="72" text-anchor="middle" font-size="22" font-weight="800" fill="currentColor">12,5k</text><text x="75" y="90" text-anchor="middle" font-size="10" fill="currentColor" opacity=".6">références</text></svg>`;
  $('#leg').innerHTML=CATS.map((c,i)=>`<span><i style="background:${COL[i]}"></i>${c} <b>${D[i]}%</b></span>`).join('')}
 /* navigation + loaders */
-const T={dash:['Tableau de bord','Vue d\'ensemble de la conformité pharmaceutique'],scan:['Scanner produit','Enregistrez un médicament et contrôlez sa date d\'expiration'],prod:['Gestion des produits','Inventaire, statuts et traçabilité par lot'],alert:['Alertes ARP','Notifications institutionnelles et historique']};
+const T={dash:['Tableau de bord','Vue d\'ensemble de la conformité pharmaceutique'],scan:['Scanner produit','Enregistrez un médicament et contrôlez sa date d\'expiration'],prod:['Gestion des produits','Inventaire, statuts et traçabilité par lot'],alert:['Alertes acorep','Notifications institutionnelles et historique']};
 const rows=n=>Array(n).fill('<div class="sk" style="height:44px;margin-top:10px"></div>').join('');
 const SK={dash:`<div class="grid g5">${Array(5).fill('<div class="card"><div class="sk" style="height:38px;width:38px"></div><div class="sk" style="height:30px;margin-top:14px;width:60%"></div><div class="sk" style="margin-top:10px;width:80%"></div></div>').join('')}</div><div class="grid g3" style="margin-top:16px"><div class="card"><div class="sk" style="height:230px"></div></div><div class="card"><div class="sk" style="height:230px"></div></div></div>`,prod:`<div class="card"><div class="sk" style="height:42px;width:40%"></div>${rows(7)}</div>`};
 let cur='dash',busy=0;
@@ -269,6 +269,6 @@ $$('[data-vw]').forEach(b=>b.onclick=()=>{vw=b.dataset.vw;$$('[data-vw]').forEac
 /* alertes */
 function alerts(){const ex=P.filter(p=>p.s=='exp'),near=P.filter(p=>p.s=='near').slice(0,1),A=[...ex,...near];
  $('#al-sum').textContent=`${ex.length} médicaments expirés · ${new Set(ex.map(p=>p.l)).size} lots concernés · ${ex.reduce((s,p)=>s+p.q,0)} unités au total`;
- $('#als').innerHTML=A.map((p,i)=>`<div class="al ${p.s=='exp'?'':'m'}" style="animation-delay:${i*90}ms"><div class="thumb">${ic('alert')}</div><div class="grow"><b>${p.n}</b> ${i<2?'<span class="badge b-new" style="margin-left:6px">Nouvelle</span>':''}<div class="meta"><span>Lot ${p.l}</span><span>Exp. ${fd(day(p.d))}</span><span>${p.q} unités</span></div></div><span class="badge b-${p.s}">${p.s=='exp'?'Priorité critique':'Priorité moyenne'}</span><button class="btn p" style="padding:7px 12px" onclick="this.innerHTML='${ic('check').replace(/'/g,'&quot;')}Transmis';toast('Alerte transmise à l\\'ARP')">Notifier l'ARP</button></div>`).join('')}
+ $('#als').innerHTML=A.map((p,i)=>`<div class="al ${p.s=='exp'?'':'m'}" style="animation-delay:${i*90}ms"><div class="thumb">${ic('alert')}</div><div class="grow"><b>${p.n}</b> ${i<2?'<span class="badge b-new" style="margin-left:6px">Nouvelle</span>':''}<div class="meta"><span>Lot ${p.l}</span><span>Exp. ${fd(day(p.d))}</span><span>${p.q} unités</span></div></div><span class="badge b-${p.s}">${p.s=='exp'?'Priorité critique':'Priorité moyenne'}</span><button class="btn p" style="padding:7px 12px" onclick="this.innerHTML='${ic('check').replace(/'/g,'&quot;')}Transmis';toast('Alerte transmise à l\\'acorep')">Notifier l'acorep</button></div>`).join('')}
 icons();counters();charts();list();
 </script></body></html>
